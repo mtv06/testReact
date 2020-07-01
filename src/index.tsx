@@ -1,13 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import App from './components/App';
 import * as serviceWorker from './serviceWorker';
+import { Provider } from "react-redux";
+import store from "./store";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+      <BrowserRouter>
+          <Switch>
+              <Route path="/" component={App} exact />
+              <Route path="/all" component={App} />
+              <Route path="/active" component={App} />
+              <Route path="/completed" component={App} />
+          </Switch>
+      </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 
