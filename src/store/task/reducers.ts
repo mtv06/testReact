@@ -9,10 +9,7 @@ import {
 } from './types'
 
 const initialState: TaskState = {
-    tasks: [
-        {id: 1, title: "title1", description: "description1", expirationDate: new Date("2020-07-03"), color: "#17a2b8", isCompleted: false},
-        {id: 2, title: "title2", description: "description2", expirationDate: new Date("2020-06-23"), color: "#17a2b8", isCompleted: false}
-    ]
+    tasks: []
 }
 
 export function taskReducers(
