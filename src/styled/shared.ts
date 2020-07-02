@@ -11,29 +11,11 @@ export const TitleForm = styled.h1`
   font-size: 2.5em;
   text-align: left;
   color: palevioletred;
-  grid-area: form;
 `;
 
 export const TitleTask = styled.h1`
   font-size: 1.5em;
   text-align: left;
-`;
-
-export const Form = styled.div`
-  input {
-    width: 80%;
-    height: 40px;
-    color: grey;
-  }
-      
-  .react-datepicker-wrapper {
-    width: 80%;
-  }
-  
-  .react-datepicker__input-container input {
-    color: grey;
-    width: 100%;
-  }
 `;
 
 export const Button = styled.button`
@@ -44,6 +26,5 @@ export const Button = styled.button`
   padding: 0.25em 1em;
   border: 2px solid #28a745;
   border-radius: 3px;
-  width: 80%;
   height: 40px;
 `;

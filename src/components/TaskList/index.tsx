@@ -13,7 +13,6 @@ interface TaskProps {
     path: String;
 }
 
-
 const TaskList: FC<TaskProps> = (
     {
         tasks,

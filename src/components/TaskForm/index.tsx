@@ -4,17 +4,19 @@ import {useDispatch} from "react-redux";
 import {Task} from "../../store/task/types";
 import {addTask} from "../../store/task/actions";
 import {Button, TitleForm} from "../../styled";
-import {Form} from "../../styled/shared";
+import styled from "styled-components";
 
 interface TaskProps {
     tasks: Task[];
     checkTask: (task: Task) => void;
+    className?: string;
 }
 
-const TaskForm: FC<TaskProps> = (
+const TaskForm_: FC<TaskProps> = (
     {
         tasks,
-        checkTask
+        checkTask,
+        className
     }) => {
     const dispatch = useDispatch()
     const [task, setTask] = useState<Task>({
@@ -26,7 +28,7 @@ const TaskForm: FC<TaskProps> = (
         isCompleted: false
     })
 
-    const handleAdd = (): void => {
+    const handleSubmit = (): void => {
         task.id = tasks.length + 1
         checkTask(task)
         dispatch(addTask(task))
@@ -54,7 +56,13 @@ const TaskForm: FC<TaskProps> = (
     }
 
     return (
-        <Form>
+        <form
+            className={className}
+            onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+            return false;
+        }}>
             <TitleForm>Create Task</TitleForm>
             <div className="form-group">
                 <input
@@ -80,9 +88,30 @@ const TaskForm: FC<TaskProps> = (
                         onDateChange(date);
                 }}
             />
-            <Button onClick={() => handleAdd()}>Submit</Button>
-        </Form>
+            <Button>Submit</Button>
+        </form>
     )
 }
+
+const TaskForm = styled(TaskForm_)`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  
+  input {
+    width: 100%;
+    height: 40px;
+    color: grey;
+  }
+  
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+  
+  .react-datepicker__input-container input {
+    color: grey;
+    width: 100%;
+  }
+`;
 
 export default TaskForm;

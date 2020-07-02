@@ -4,19 +4,21 @@ import { useDispatch } from "react-redux";
 import { Task } from "../../store/task/types";
 import { editTask } from "../../store/task/actions";
 import { Button, TitleForm } from "../../styled";
-import { Form } from "../../styled/shared";
+import styled from "styled-components";
 
 interface TaskProps {
     currentTask: Task;
     isEditingTask: (isEdit: boolean) => void;
     checkTask: (task: Task) => void;
+    className?: string;
 }
 
-const TaskEdit: FC<TaskProps> = (
+const TaskEdit_: FC<TaskProps> = (
     {
         currentTask,
         isEditingTask,
-        checkTask
+        checkTask,
+        className
     }) => {
     const dispatch = useDispatch()
     const [task, setTask] = useState<Task>({
@@ -28,7 +30,7 @@ const TaskEdit: FC<TaskProps> = (
         isCompleted: currentTask.isCompleted
     })
 
-    const handleEdit = (): void => {
+    const handleSubmit = (): void => {
         isEditingTask(false);
         checkTask(task)
         dispatch(editTask(task))
@@ -51,7 +53,13 @@ const TaskEdit: FC<TaskProps> = (
     }
 
     return (
-        <Form>
+        <form
+            className={className}
+            onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+            return false;
+        }}>
             <TitleForm>Update Task</TitleForm>
             <div className="form-group">
                 <input
@@ -75,9 +83,30 @@ const TaskEdit: FC<TaskProps> = (
                         onDateChange(date);
                 }}
             />
-            <Button onClick={() => handleEdit()}>Submit</Button>
-        </Form>
+            <Button>Submit</Button>
+        </form>
     )
 }
+
+const TaskEdit = styled(TaskEdit_)`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  
+  input {
+    width: 100%;
+    height: 40px;
+    color: grey;
+  }
+  
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+  
+  .react-datepicker__input-container input {
+    color: grey;
+    width: 100%;
+  }
+`;
 
 export default TaskEdit;
