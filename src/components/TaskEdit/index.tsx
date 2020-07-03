@@ -64,19 +64,19 @@ const TaskEdit_: FC<TaskProps> = (
             <div className="form-group">
                 <input
                     type="text"
-                    defaultValue={currentTask.title}
+                    defaultValue={task.title}
                     onChange={onInputChange('title')}
                 />
             </div>
             <div className="form-group">
                 <input
                     type="text"
-                    defaultValue={currentTask.description}
+                    defaultValue={task.description}
                     onChange={onInputChange('description')}
                 />
             </div>
             <DatePicker
-                selected={currentTask.expirationDate}
+                selected={task.expirationDate}
                 dateFormat="dd.MM.yyyy"
                 onChange={(date) => {
                     if (date != null)
