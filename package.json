@@ -54,7 +54,10 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "prettier": "2.0.5",
-    "axios-mock-adapter": "^1.18.1"
+    "@typescript-eslint/eslint-plugin": "^3.5.0",
+    "@typescript-eslint/parser": "^3.5.0",
+    "axios-mock-adapter": "^1.18.1",
+    "eslint": "^7.4.0",
+    "prettier": "2.0.5"
   }
 }

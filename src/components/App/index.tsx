@@ -26,7 +26,7 @@ const App: FC = () => {
         isCompleted: false
     }
     const [currentTask, setCurrentTask] = useState<Task>(initFormState);
-    const [isEditing, setIsEditing] = useState<Boolean>(false);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);

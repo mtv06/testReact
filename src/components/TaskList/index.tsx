@@ -10,7 +10,7 @@ interface TaskProps {
     editTask: (newTask: Task) => void;
     isEditingTask: (isEdit: boolean) => void;
     handleShow: () => void;
-    path: String;
+    path: string;
 }
 
 const TaskList: FC<TaskProps> = (
