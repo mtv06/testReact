@@ -1,4 +1,12 @@
-import {TaskActionTypes, Task, ADD_TASK, EDIT_TASK, DELETE_TASK, COMPLETED_TASK, ACTIVE_TASK} from "./types";
+import {
+    TaskActionTypes,
+    Task,
+    ADD_TASK,
+    EDIT_TASK,
+    DELETE_TASK,
+    COMPLETED_TASK,
+    ACTIVE_TASK
+} from "./types";
 
 export function addTask(newTask: Task): TaskActionTypes {
     return {

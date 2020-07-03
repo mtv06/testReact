@@ -18,7 +18,7 @@ const TaskForm_: FC<TaskProps> = (
         checkTask,
         className
     }) => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const [task, setTask] = useState<Task>({
         id: 0,
         title: '',
@@ -26,17 +26,17 @@ const TaskForm_: FC<TaskProps> = (
         expirationDate: new Date(),
         color: '',
         isCompleted: false
-    })
+    });
 
     const handleSubmit = (): void => {
-        task.id = tasks.length + 1
-        checkTask(task)
-        dispatch(addTask(task))
+        task.id = tasks.length + 1;
+        checkTask(task);
+        dispatch(addTask(task));
         setTask({
             ...task,
             title: '',
             description: ''
-        })
+        });
     }
 
     const onInputChange = (fieldName: string) => (
@@ -45,14 +45,14 @@ const TaskForm_: FC<TaskProps> = (
         setTask({
             ...task,
             [fieldName]: e.currentTarget.value
-        })
+        });
     }
 
     const onDateChange = (date: Date): void => {
         setTask({
             ...task,
             expirationDate: date
-        })
+        });
     }
 
     return (
@@ -90,7 +90,7 @@ const TaskForm_: FC<TaskProps> = (
             />
             <Button>Submit</Button>
         </form>
-    )
+    );
 }
 
 const TaskForm = styled(TaskForm_)`

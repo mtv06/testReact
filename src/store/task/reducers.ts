@@ -24,11 +24,11 @@ export function taskReducers(
         case EDIT_TASK:
             return {
                 tasks: state.tasks.map(
-                    content =>
-                        content.id === action.payload.id ?
-                            {...content, title : action.payload.title,
+                    task =>
+                        task.id === action.payload.id ?
+                            {...task, title : action.payload.title,
                                 description : action.payload.description }
-                        : content)
+                        : task)
             }
         case DELETE_TASK:
             return {
@@ -39,19 +39,19 @@ export function taskReducers(
         case COMPLETED_TASK:
             return {
                 tasks: state.tasks.map(
-                    content =>
-                        content.id === action.meta.id ?
-                            {...content, isCompleted : true } : content)
+                    task =>
+                        task.id === action.meta.id ?
+                            {...task, isCompleted : true } : task)
             }
         case ACTIVE_TASK:
             return {
                 tasks: state.tasks.map(
-                    content =>
-                        content.id === action.meta.id ?
-                            {...content, isCompleted : false } : content)
+                    task =>
+                        task.id === action.meta.id ?
+                            {...task, isCompleted : false } : task)
             }
         default:
-            return state
+            return state;
     }
 
 }

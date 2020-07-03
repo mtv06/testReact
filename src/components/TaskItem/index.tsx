@@ -5,6 +5,16 @@ import { TitleTask } from "../../styled";
 import styled from "styled-components/macro";
 import { DropTargetMonitor, useDrag, useDrop, XYCoord } from "react-dnd";
 
+const TaskTypes = {
+    TASK: 'task'
+}
+
+interface DragItem {
+    index: number;
+    id: string;
+    type: string;
+}
+
 interface TaskItemProps {
     id: number;
     index: number;
@@ -18,10 +28,6 @@ interface TaskItemProps {
     className?: string;
 }
 
-const TaskTypes = {
-    TASK: 'task'
-}
-
 const Button = styled.button`
   background: white;
   color: ${props => props.color};
@@ -32,12 +38,6 @@ const Button = styled.button`
   border: 2px solid ${props => props.color};
   border-radius: 3px;
 `;
-
-interface DragItem {
-    index: number;
-    id: string;
-    type: string;
-}
 
 const TaskItem_: FC<TaskItemProps> = (
     {
@@ -60,20 +60,20 @@ const TaskItem_: FC<TaskItemProps> = (
                 return
             }
 
-            const dragIndex = item.index
-            const hoverIndex = index
+            const dragIndex = item.index;
+            const hoverIndex = index;
 
             if (dragIndex === hoverIndex) {
                 return
             }
 
-            const hoverBoundingRect = ref.current?.getBoundingClientRect()
+            const hoverBoundingRect = ref.current?.getBoundingClientRect();
 
-            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
-            const clientOffset = monitor.getClientOffset()
+            const clientOffset = monitor.getClientOffset();
 
-            const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top
+            const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
 
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return
@@ -83,17 +83,17 @@ const TaskItem_: FC<TaskItemProps> = (
                 return
             }
 
-            moveTask(dragIndex, hoverIndex)
+            moveTask(dragIndex, hoverIndex);
 
-            item.index = hoverIndex
+            item.index = hoverIndex;
         },
-    })
+    });
 
     const [, drag] = useDrag({
         item: { type: TaskTypes.TASK, id, index }
-    })
+    });
 
-    drag(drop(ref))
+    drag(drop(ref));
 
     return (
         <div className={className} ref={ref} key={task.id}>
@@ -110,7 +110,7 @@ const TaskItem_: FC<TaskItemProps> = (
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 const TaskItem = styled(TaskItem_)`

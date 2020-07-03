@@ -28,12 +28,12 @@ const TaskEdit_: FC<TaskProps> = (
         expirationDate: currentTask.expirationDate,
         color: currentTask.color,
         isCompleted: currentTask.isCompleted
-    })
+    });
 
     const handleSubmit = (): void => {
         isEditingTask(false);
-        checkTask(task)
-        dispatch(editTask(task))
+        checkTask(task);
+        dispatch(editTask(task));
     }
 
     const onInputChange = (fieldName: string) => (
@@ -42,14 +42,14 @@ const TaskEdit_: FC<TaskProps> = (
         setTask({
             ...task,
             [fieldName]: e.currentTarget.value
-        })
+        });
     }
 
     const onDateChange = (date: Date): void => {
         setTask({
             ...task,
             expirationDate: date
-        })
+        });
     }
 
     return (
@@ -85,7 +85,7 @@ const TaskEdit_: FC<TaskProps> = (
             />
             <Button>Submit</Button>
         </form>
-    )
+    );
 }
 
 const TaskEdit = styled(TaskEdit_)`

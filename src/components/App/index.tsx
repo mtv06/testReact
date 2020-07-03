@@ -16,7 +16,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 const App: FC = () => {
     const match = useRouteMatch();
-    const tasks = useSelector<AppState, Task[]>(state => state.task.tasks)
+    const tasks = useSelector<AppState, Task[]>(state => state.task.tasks);
     const initFormState: Task = {
         id: 1,
         title: "title1",
@@ -25,18 +25,18 @@ const App: FC = () => {
         color: "#17a2b8",
         isCompleted: false
     }
-    const [currentTask, setCurrentTask] = useState<Task>(initFormState)
-    const [isEditing, setIsEditing] = useState<Boolean>(false)
+    const [currentTask, setCurrentTask] = useState<Task>(initFormState);
+    const [isEditing, setIsEditing] = useState<Boolean>(false);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const editTask = (newTask: Task): void => {
-        setCurrentTask(newTask)
+        setCurrentTask(newTask);
     }
 
     const isEditingTask = (isEdit: boolean): void => {
-        setIsEditing(isEdit)
+        setIsEditing(isEdit);
     }
 
     const calculateDaysLeft = (date: Date): number => {
@@ -59,8 +59,8 @@ const App: FC = () => {
             tasks.map(
                 task => checkTask(task)
             )
-        })
-    })
+        });
+    });
 
     return (
         <ThemeProvider theme={theme}>

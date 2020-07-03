@@ -21,46 +21,46 @@ const TaskList: FC<TaskProps> = (
         handleShow,
         path
     }) => {
-    const dispatch = useDispatch()
-    const [tasksDnD, setTasksDnD] = useState<Task[]>(tasks)
+    const dispatch = useDispatch();
+    const [tasksDnD, setTasksDnD] = useState<Task[]>(tasks);
 
     useEffect(() => {
-        setTasksDnD(tasks)
-    }, [tasks])
+        setTasksDnD(tasks);
+    }, [tasks]);
 
     const handleEdit = (newTask: Task): void => {
         if (!newTask.isCompleted) {
-            editTask(newTask)
-            isEditingTask(true)
+            editTask(newTask);
+            isEditingTask(true);
         } else alert('isCompleted');
     }
 
     const handleDelete = (id: number): void => {
         if (window.confirm(`Are you sure?`)) {
-            dispatch(deleteTask(id))
+            dispatch(deleteTask(id));
         }
     }
 
     const handleActive = (id: number): void => {
         if (window.confirm(`Are you sure?`)) {
-            dispatch(activeTask(id))
+            dispatch(activeTask(id));
         }
     }
 
     const handleCompleted = (id: number): void => {
         if (window.confirm(`Are you sure?`)) {
-            dispatch(completedTask(id))
+            dispatch(completedTask(id));
         }
     }
 
     const handleView = (viewTask: Task): void => {
-        editTask(viewTask)
-        handleShow()
+        editTask(viewTask);
+        handleShow();
     }
 
     const moveTask = useCallback(
         (dragIndex: number, hoverIndex: number) => {
-            const dragCard = tasksDnD[dragIndex]
+            const dragCard = tasksDnD[dragIndex];
             setTasksDnD(
                 update(tasksDnD, {
                     $splice: [
@@ -68,10 +68,10 @@ const TaskList: FC<TaskProps> = (
                         [hoverIndex, 0, dragCard],
                     ],
                 }),
-            )
+            );
         },
         [tasksDnD],
-    )
+    );
 
     const renderTask = (task: Task, index: number) => {
         return (
@@ -87,7 +87,7 @@ const TaskList: FC<TaskProps> = (
                 handleActive={handleActive}
                 moveTask={moveTask}
             />
-        )
+        );
     }
 
     return (
@@ -97,9 +97,9 @@ const TaskList: FC<TaskProps> = (
                     case '/all':
                         return tasks
                     case '/active':
-                        return task.isCompleted === false
+                        return !task.isCompleted
                     case '/completed':
-                        return task.isCompleted === true
+                        return task.isCompleted
                     default:
                         return tasks
                 }
@@ -107,7 +107,7 @@ const TaskList: FC<TaskProps> = (
                 renderTask(task, i)
             ))}
         </div>
-    )
+    );
 }
 
 export default TaskList;

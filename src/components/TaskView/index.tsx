@@ -28,7 +28,7 @@ const TaskView: FC<TaskProps> = (
                 </Button>
             </Modal.Footer>
         </Modal>
-    )
+    );
 }
 
 export default TaskView;
