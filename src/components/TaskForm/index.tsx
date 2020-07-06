@@ -5,6 +5,7 @@ import {Task} from "../../store/task/types";
 import {addTask} from "../../store/task/actions";
 import {Button, TitleForm} from "../../styled";
 import styled from "styled-components";
+import {createTask} from "../../api/controllers/task";
 
 interface TaskProps {
     tasks: Task[];
@@ -29,13 +30,25 @@ const TaskForm_: FC<TaskProps> = (
     });
 
     const handleSubmit = (): void => {
-        task.id = tasks.length + 1;
-        checkTask(task);
-        dispatch(addTask(task));
+        createTask(task)
+            .then(res => {
+                if (res.status === 201) {
+                    task.id = tasks.length + 1;
+                    checkTask(task);
+                    dispatch(addTask(task));
+                } else {
+                    console.log(`error: Error ${res.status}: ${res.statusText}` )
+                }
+            })
+            .catch(error => {
+                    console.error(error);
+                }
+            );
         setTask({
             ...task,
             title: '',
-            description: ''
+            description: '',
+            expirationDate: new Date()
         });
     }
 
@@ -82,7 +95,7 @@ const TaskForm_: FC<TaskProps> = (
             </div>
             <DatePicker
                 selected={task.expirationDate}
-                dateFormat="dd.MM.yyyy"
+                dateFormat="dd/MM/yyyy"
                 onChange={(date) => {
                     if (date != null)
                         onDateChange(date);

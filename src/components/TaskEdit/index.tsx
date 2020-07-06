@@ -5,6 +5,7 @@ import { Task } from "../../store/task/types";
 import { editTask } from "../../store/task/actions";
 import { Button, TitleForm } from "../../styled";
 import styled from "styled-components";
+import { updateTask } from "../../api/controllers/task";
 
 interface TaskProps {
     currentTask: Task;
@@ -32,8 +33,19 @@ const TaskEdit_: FC<TaskProps> = (
 
     const handleSubmit = (): void => {
         isEditingTask(false);
-        checkTask(task);
-        dispatch(editTask(task));
+        updateTask(task)
+            .then(res => {
+                if (res.status === 204) {
+                    checkTask(task);
+                    dispatch(editTask(task));
+                } else {
+                    console.error(`Error ${res.status}: ${res.statusText}` );
+                }
+            })
+            .catch(error => {
+                    console.error(error);
+                }
+            );
     }
 
     const onInputChange = (fieldName: string) => (
@@ -76,8 +88,8 @@ const TaskEdit_: FC<TaskProps> = (
                 />
             </div>
             <DatePicker
-                selected={task.expirationDate}
-                dateFormat="dd.MM.yyyy"
+                selected={new Date(task.expirationDate)}
+                dateFormat="dd/MM/yyyy"
                 onChange={(date) => {
                     if (date != null)
                         onDateChange(date);

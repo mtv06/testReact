@@ -100,7 +100,7 @@ const TaskItem_: FC<TaskItemProps> = (
             <div className="row">
                 <div className="col-md-6" onClick={() => handleView(task)}>
                     <TitleTask>{task.title}</TitleTask>
-                    <Moment format="YYYY/MM/DD">{task.expirationDate.toDateString()}</Moment>
+                    <Moment format="DD/MM/YYYY">{task.expirationDate}</Moment>
                 </div>
                 <div className="col-md-6">
                     <Button color="#28a745" onClick={() => handleEdit(task)}>Edit</Button>

@@ -4,10 +4,12 @@ import { useDispatch } from "react-redux";
 import { activeTask, completedTask, deleteTask } from "../../store/task/actions";
 import TaskItem from "../TaskItem";
 import update from 'immutability-helper'
+import { isCompletedTask, removeTask } from "../../api/controllers/task";
 
 interface TaskProps {
     tasks: Task[];
-    editTask: (newTask: Task) => void;
+    editTask: (task: Task) => void;
+    viewTask: (task: Task) => void;
     isEditingTask: (isEdit: boolean) => void;
     handleShow: () => void;
     path: string;
@@ -17,6 +19,7 @@ const TaskList: FC<TaskProps> = (
     {
         tasks,
         editTask,
+        viewTask,
         isEditingTask,
         handleShow,
         path
@@ -28,37 +31,71 @@ const TaskList: FC<TaskProps> = (
         setTasksDnD(tasks);
     }, [tasks]);
 
-    const handleEdit = (newTask: Task): void => {
-        if (!newTask.isCompleted) {
-            editTask(newTask);
+    const handleEdit = (task: Task): void => {
+        if (!task.isCompleted) {
+            editTask(task);
             isEditingTask(true);
-        } else alert('isCompleted');
+        } else
+            alert('It is impossible to edit the completed task');
     }
 
     const handleDelete = (id: number): void => {
         if (window.confirm(`Are you sure?`)) {
-            dispatch(deleteTask(id));
+            removeTask(id)
+                .then(res => {
+                    if (res.status === 204) {
+                        dispatch(deleteTask(id));
+                    } else {
+                        console.log(`error: Error ${res.status}: ${res.statusText}` )
+                    }
+                })
+                .catch(error => {
+                        console.error(error);
+                    }
+                );
         }
     }
 
     const handleActive = (id: number): void => {
         if (window.confirm(`Are you sure?`)) {
-            dispatch(activeTask(id));
+            isCompletedTask(id, false)
+                .then(res => {
+                    if (res.status === 204) {
+                        dispatch(activeTask(id));
+                    } else {
+                        console.error(`Error ${res.status}: ${res.statusText}` )
+                    }
+                })
+                .catch(error => {
+                        console.error(error);
+                    }
+                );
         }
     }
 
     const handleCompleted = (id: number): void => {
         if (window.confirm(`Are you sure?`)) {
-            dispatch(completedTask(id));
+            isCompletedTask(id, true)
+                .then(res => {
+                    if (res.status === 204) {
+                        dispatch(completedTask(id));
+                    } else {
+                        console.error(`Error ${res.status}: ${res.statusText}` )
+                    }
+                })
+                .catch(error => {
+                        console.error(error);
+                    }
+                );
         }
     }
 
-    const handleView = (viewTask: Task): void => {
-        editTask(viewTask);
+    const handleView = (task: Task): void => {
+        viewTask(task);
         handleShow();
     }
 
-    const moveTask = useCallback(
+    const moveTask =  useCallback(
         (dragIndex: number, hoverIndex: number) => {
             const dragCard = tasksDnD[dragIndex];
             setTasksDnD(

@@ -1,5 +1,6 @@
-import { combineReducers, createStore } from 'redux';
+import {applyMiddleware, combineReducers, createStore} from 'redux';
 import { taskReducers } from "./task/reducers";
+import logger from 'redux-logger';
 
 const rootReducer = combineReducers({
     task: taskReducers
@@ -8,7 +9,8 @@ const rootReducer = combineReducers({
 export type AppState = ReturnType<typeof rootReducer>;
 
 const store = createStore(
-    rootReducer
+    rootReducer,
+    applyMiddleware(logger)
 )
 
 export default store;

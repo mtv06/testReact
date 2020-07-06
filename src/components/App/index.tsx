@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import TaskList from "../TaskList";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { AppState } from "../../store";
 import { Task } from "../../store/task/types";
 import TaskForm from "../TaskForm";
@@ -13,10 +13,14 @@ import { GlobalStyles, theme, Content, Title } from "../../styled";
 import { ThemeProvider } from "styled-components";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { getTasks } from "../../api/controllers/task";
+import { addTask } from "../../store/task/actions";
 
 const App: FC = () => {
     const match = useRouteMatch();
     const tasks = useSelector<AppState, Task[]>(state => state.task.tasks);
+    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const initFormState: Task = {
         id: 1,
         title: "title1",
@@ -31,8 +35,12 @@ const App: FC = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const editTask = (newTask: Task): void => {
-        setCurrentTask(newTask);
+    const editTask = (task: Task): void => {
+        setCurrentTask(task);
+    }
+
+    const viewTask = (task: Task): void => {
+        setCurrentTask(task);
     }
 
     const isEditingTask = (isEdit: boolean): void => {
@@ -62,6 +70,24 @@ const App: FC = () => {
         });
     });
 
+    useEffect(() => {
+        getTasks()
+            .then(res => {
+                if (res.status === 200) {
+                    res.data.map(task =>
+                        dispatch(addTask(task))
+                    )
+                    setIsLoading(true);
+                } else {
+                    console.error(`Error ${res.status}: ${res.statusText}` );
+                }
+             })
+            .catch(error => {
+                    console.error(error);
+                }
+            );
+    }, []);
+
     return (
         <ThemeProvider theme={theme}>
             <GlobalStyles />
@@ -84,13 +110,15 @@ const App: FC = () => {
                         ]}
                     />
                     <DndProvider backend={HTML5Backend}>
-                        <TaskList
+                        {isLoading && <TaskList
                             tasks={tasks}
                             editTask={editTask}
+                            viewTask={viewTask}
                             isEditingTask={isEditingTask}
                             handleShow={handleShow}
                             path={match.path}
                         />
+                        }
                     </DndProvider>
                 </div>
             </Content>

@@ -8,9 +8,9 @@ import {
     TaskState
 } from './types'
 
-const initialState: TaskState = {
+const initialState : TaskState = {
     tasks: []
-}
+};
 
 export function taskReducers(
     state = initialState,
