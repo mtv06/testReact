@@ -5,7 +5,7 @@ import { mockTasksData } from "./mock/mockTasksData";
 const API = axios.create({
     baseURL: process.env.BASE_PATH,
     timeout: 5000,
-    responseType: 'json',
+    responseType: 'json'
 });
 
 const mock = new MockAdapter(API);

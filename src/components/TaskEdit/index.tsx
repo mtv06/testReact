@@ -32,20 +32,21 @@ const TaskEdit_: FC<TaskProps> = (
     });
 
     const handleSubmit = (): void => {
-        isEditingTask(false);
         updateTask(task)
             .then(res => {
                 if (res.status === 204) {
                     checkTask(task);
                     dispatch(editTask(task));
                 } else {
-                    console.error(`Error ${res.status}: ${res.statusText}` );
+                    console.error(`Failed to update task, status -  ${res.status}: ${res.statusText}`);
                 }
             })
             .catch(error => {
-                    console.error(error);
-                }
-            );
+                console.error(error);
+            })
+            .finally(() => {
+                isEditingTask(false);
+            })
     }
 
     const onInputChange = (fieldName: string) => (
@@ -68,10 +69,11 @@ const TaskEdit_: FC<TaskProps> = (
         <form
             className={className}
             onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit();
-            return false;
-        }}>
+                e.preventDefault();
+                handleSubmit();
+                return false;
+            }}
+        >
             <TitleForm>Update Task</TitleForm>
             <div className="form-group">
                 <input

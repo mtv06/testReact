@@ -46,7 +46,7 @@ const TaskList: FC<TaskProps> = (
                     if (res.status === 204) {
                         dispatch(deleteTask(id));
                     } else {
-                        console.log(`error: Error ${res.status}: ${res.statusText}` )
+                        console.error(`Failed to remove task, status - ${res.status}: ${res.statusText}` )
                     }
                 })
                 .catch(error => {

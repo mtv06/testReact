@@ -27,7 +27,7 @@ export const mockTasksData = [
     id: 4,
     title: 'task number four',
     description: 'test application',
-    expirationDate: '07.12.2020',
+    expirationDate: '08.12.2020',
     color: '#17a2b8',
     isCompleted: false
   }

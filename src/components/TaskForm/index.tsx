@@ -1,11 +1,11 @@
-import React, {FC, SyntheticEvent, useState} from "react";
+import React, { FC, SyntheticEvent, useState } from "react";
 import DatePicker from "react-datepicker";
-import {useDispatch} from "react-redux";
-import {Task} from "../../store/task/types";
-import {addTask} from "../../store/task/actions";
-import {Button, TitleForm} from "../../styled";
+import { useDispatch } from "react-redux";
+import { Task } from "../../store/task/types";
+import { addTask } from "../../store/task/actions";
+import { Button, TitleForm } from "../../styled";
 import styled from "styled-components";
-import {createTask} from "../../api/controllers/task";
+import { createTask } from "../../api/controllers/task";
 
 interface TaskProps {
     tasks: Task[];
@@ -37,7 +37,7 @@ const TaskForm_: FC<TaskProps> = (
                     checkTask(task);
                     dispatch(addTask(task));
                 } else {
-                    console.log(`error: Error ${res.status}: ${res.statusText}` )
+                    console.error(`Failed to create task, status - ${res.status}: ${res.statusText}`);
                 }
             })
             .catch(error => {

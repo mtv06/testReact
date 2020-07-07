@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import TaskList from "../TaskList";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../store";
 import { Task } from "../../store/task/types";
 import TaskForm from "../TaskForm";

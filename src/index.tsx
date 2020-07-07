@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 ReactDOM.render(
   <Provider store={store}>
