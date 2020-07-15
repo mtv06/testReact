@@ -11,16 +11,16 @@ export const mockTasksData = [
     id: 2,
     title: 'task number two',
     description: 'make up layout',
-    expirationDate: '05.06.2020',
-    color: '#ff00ff',
+    expirationDate: '06.07.2020',
+    color: '#dc3545',
     isCompleted: false
   },
   {
     id: 3,
     title: 'task number three',
     description: 'develop api for application',
-    expirationDate: '07.08.2020',
-    color: '#17a2b8',
+    expirationDate: '08.10.2020',
+    color: '#00c853',
     isCompleted: false
   },
   {
@@ -28,7 +28,7 @@ export const mockTasksData = [
     title: 'task number four',
     description: 'test application',
     expirationDate: '08.12.2020',
-    color: '#17a2b8',
+    color: '#00c853',
     isCompleted: false
   }
 ];

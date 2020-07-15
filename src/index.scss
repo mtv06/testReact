@@ -1,0 +1,76 @@
+%react-icons-shared {
+    color: #1276DC;
+    cursor: pointer;
+}
+
+.react-icons {
+    @extend %react-icons-shared;
+    height: 3em;
+    width: 3em;
+}
+
+.react-icons__add-button {
+    justify-content: center;
+    text-align: center;
+    padding-bottom: 5em;
+}
+
+.react-icons-items {
+    @extend %react-icons-shared;
+    height: 1.5em;
+    width: 1.5em;
+    margin-left: 1.5em;
+    margin-top: 1.5em;
+}
+
+.modal-button {
+    text-align: right;
+    align-items: center;
+    padding: .75rem;
+    border-top: 1px solid #dee2e6;
+    border-bottom-right-radius: calc(.3rem - 1px);
+    border-bottom-left-radius: calc(.3rem - 1px);
+}
+
+.form-control {
+    color: #1276DC;
+    opacity: 0.6;
+
+    &::placeholder {
+        color: #1276DC;
+    }
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+
+    .react-datepicker__input-container input {
+        color: #1276DC;
+        opacity: 0.6;
+        display: block;
+        width: 100%;
+        height: calc(1.5em + .75rem + 2px);
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+}
+
+.notification {
+    position: absolute;
+    z-index: 2;
+    top: 1em;
+    right: 1em;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1276DC;
+    border-color: #1276DC;
+}

@@ -1,5 +1,9 @@
 import {
-    TaskActionTypes,
+    AddTaskAction,
+    EditTaskAction,
+    DeleteTaskAction,
+    CompletedTaskAction,
+    ActiveTaskAction,
     Task,
     ADD_TASK,
     EDIT_TASK,
@@ -8,21 +12,21 @@ import {
     ACTIVE_TASK
 } from "./types";
 
-export function addTask(newTask: Task): TaskActionTypes {
+export function addTask(newTask: Task): AddTaskAction {
     return {
         type: ADD_TASK,
         payload: newTask
     }
 }
 
-export function editTask(newTask: Task): TaskActionTypes {
+export function editTask(newTask: Task): EditTaskAction {
     return {
         type: EDIT_TASK,
         payload: newTask
     }
 }
 
-export function deleteTask(id: number): TaskActionTypes {
+export function deleteTask(id: number): DeleteTaskAction {
     return {
         type: DELETE_TASK,
         meta: {
@@ -31,7 +35,7 @@ export function deleteTask(id: number): TaskActionTypes {
     }
 }
 
-export function completedTask(id: number): TaskActionTypes {
+export function completedTask(id: number): CompletedTaskAction {
     return {
         type: COMPLETED_TASK,
         meta: {
@@ -40,7 +44,7 @@ export function completedTask(id: number): TaskActionTypes {
     }
 }
 
-export function activeTask(id: number): TaskActionTypes {
+export function activeTask(id: number): ActiveTaskAction {
     return {
         type: ACTIVE_TASK,
         meta: {

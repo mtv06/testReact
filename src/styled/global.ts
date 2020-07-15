@@ -8,10 +8,8 @@ export default createGlobalStyle`
       body {
         display: grid;
         grid-template-areas: ". content .";
-        grid-template-columns: 10% 1fr 10%;
-        grid-row-gap: 10px;
-        grid-column-gap: 10px;
-        height: 100vh;
+        grid-template-columns: 0.5fr 1fr 0.5fr;
+        grid-gap: 1rem;
         margin: 0;
         height: 100%;
         justify-content: center;
@@ -19,9 +17,13 @@ export default createGlobalStyle`
         background: ${theme.colors.background};
         color: ${theme.colors.blue}; 
         font-family: sans-serif;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
 
         #root {
           grid-area: content;
+          height: 100%;
         }
       }
     }

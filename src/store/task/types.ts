@@ -17,31 +17,31 @@ export const DELETE_TASK = 'DELETE_TASK';
 export const COMPLETED_TASK = 'COMPLETED_TASK';
 export const ACTIVE_TASK = 'ACTIVE_TASK';
 
-interface AddTaskAction {
+export interface AddTaskAction {
     type: typeof ADD_TASK;
     payload: Task;
 }
 
-interface EditTaskAction {
+export interface EditTaskAction {
     type: typeof EDIT_TASK;
     payload: Task;
 }
 
-interface DeleteTaskAction {
+export interface DeleteTaskAction {
     type: typeof DELETE_TASK;
     meta: {
         id: number;
     }
 }
 
-interface CompletedTaskAction {
+export interface CompletedTaskAction {
     type: typeof COMPLETED_TASK;
     meta: {
         id: number;
     }
 }
 
-interface ActiveTaskAction {
+export interface ActiveTaskAction {
     type: typeof ACTIVE_TASK;
     meta: {
         id: number;

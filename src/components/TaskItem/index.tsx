@@ -4,6 +4,8 @@ import Moment from 'react-moment';
 import { TitleTask } from "../../styled";
 import styled from "styled-components/macro";
 import { DropTargetMonitor, useDrag, useDrop, XYCoord } from "react-dnd";
+import { FaEdit, FaTrashAlt, FaUndo, FaCheck } from "react-icons/fa";
+import { IconContext } from "react-icons";
 
 const TaskTypes = {
     TASK: 'task'
@@ -27,17 +29,6 @@ interface TaskItemProps {
     moveTask: (dragIndex: number, hoverIndex: number) => void;
     className?: string;
 }
-
-const Button = styled.button`
-  background: white;
-  color: ${props => props.color};
-  font-size: 1.1em;
-  margin-top: 0.7em;
-  margin-right: 0.2em;
-  padding: 0.25em 1em;
-  border: 2px solid ${props => props.color};
-  border-radius: 3px;
-`;
 
 const TaskItem_: FC<TaskItemProps> = (
     {
@@ -98,15 +89,22 @@ const TaskItem_: FC<TaskItemProps> = (
     return (
         <div className={className} ref={ref} key={task.id}>
             <div className="row">
-                <div className="col-md-6" onClick={() => handleView(task)}>
-                    <TitleTask>{task.title}</TitleTask>
-                    <Moment format="DD/MM/YYYY">{task.expirationDate}</Moment>
+                <div className="col-lg-8 col-md-6" onClick={() => handleView(task)}>
+                    <div className="circle"></div>
+                    <div className="block-task">
+                        <TitleTask>{task.title}</TitleTask>
+                        <Moment format="DD/MM/YYYY">{task.expirationDate}</Moment>
+                    </div>
                 </div>
-                <div className="col-md-6">
-                    <Button color="#28a745" onClick={() => handleEdit(task)}>Edit</Button>
-                    <Button color="#dc3545" onClick={() => handleDelete(task.id)}>Delete</Button>
-                    <Button color="#007bff" onClick={() => handleCompleted(task.id)}>Completed</Button>
-                    <Button color="#17a2b8" onClick={() => handleActive(task.id)}>Active</Button>
+                <div className="col-lg-4 col-md-6">
+                    <IconContext.Provider value={{ className: "react-icons-items" }}>
+                        <div>
+                            <FaEdit onClick={() => handleEdit(task)}/>
+                            <FaTrashAlt onClick={() => handleDelete(task.id)}/>
+                            <FaCheck onClick={() => handleCompleted(task.id)}/>
+                            <FaUndo onClick={() => handleActive(task.id)}/>
+                        </div>
+                    </IconContext.Provider>
                 </div>
             </div>
         </div>
@@ -115,13 +113,25 @@ const TaskItem_: FC<TaskItemProps> = (
 
 const TaskItem = styled(TaskItem_)`
   background: white;  
-  color: ${props => props.task.color};
+  color: #1276DC;
   text-decoration: ${props => props.task.isCompleted ? "line-through" : "none"};
   margin: 15px 10px;
-  border: 1px dashed ${props => props.task.color};
+  border: 1px dashed #1276DC;
   padding: 12px 6px;
   border-radius: 5px;
   cursor: move;
+  
+  .circle {
+    background: ${props => props.task.color};
+    border: 0.1875em solid #1276DC;
+    border-radius: 50%;
+    height: 1em;
+    width: 1em;
+    margin-top: -0.4em
+  } 
+  .block-task {
+    margin-left: 1.5em;
+  }
 `;
 
 export default TaskItem;

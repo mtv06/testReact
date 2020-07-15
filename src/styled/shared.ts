@@ -3,14 +3,14 @@ import styled from "styled-components";
 export const Title = styled.h1`
   font-size: 3.5em;
   text-align: center;
-  color: palevioletred;
+  color: #1276DC;
   grid-area: header;
 `;
 
 export const TitleForm = styled.h1`
   font-size: 2.5em;
   text-align: left;
-  color: palevioletred;
+  color: #1276DC;
 `;
 
 export const TitleTask = styled.h1`

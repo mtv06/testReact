@@ -7,6 +7,7 @@ import store from "./store";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import './index.scss'
 
 ReactDOM.render(
   <Provider store={store}>

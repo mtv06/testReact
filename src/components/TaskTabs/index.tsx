@@ -9,11 +9,11 @@ interface TaskTabProps {
 
 const Tab = styled(NavLink)`
   &.checked {
-    background: radial-gradient(palevioletred, #000);
+    background: radial-gradient(ellipse at top, #fff, transparent),
+                radial-gradient(ellipse at bottom, #1276DC, transparent);
     color: #fff;
   }  
   text-decoration: none;
-  display: flex;
   justify-content: center;
   align-items: center;
   min-height: 32px;
@@ -39,7 +39,9 @@ const TaskTabs_: FC<TaskTabProps> = (
 );
 
 const TaskTabs = styled(TaskTabs_)`
-  display: flex;
+  display: grid;
+  grid-template-areas: "tab1 tab2 tab3";
+  grid-template-columns: 1fr 1fr 1fr;
   justify-content: center;
   align-items: center;
   position: relative;
@@ -53,7 +55,8 @@ const TaskTabs = styled(TaskTabs_)`
   user-select: none;
   margin: 8px 16px;
   a {
-    color: palevioletred;
+    color: #1276DC;
+    padding-top: 5px;
   }
 `;
 

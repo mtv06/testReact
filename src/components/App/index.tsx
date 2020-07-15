@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import TaskList from "../TaskList";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../store";
-import { Task } from "../../store/task/types";
+import { Task, AddTaskAction } from "../../store/task/types";
 import TaskForm from "../TaskForm";
 import TaskEdit from "../TaskEdit";
 import moment from "moment";
@@ -15,25 +15,30 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { getTasks } from "../../api/controllers/task";
 import { addTask } from "../../store/task/actions";
+import { Dispatch } from "redux";
+import Notifications, { useNotification } from "../Notifications";
+import { FaPlusCircle } from 'react-icons/fa';
+import { IconContext } from "react-icons";
 
 const App: FC = () => {
     const match = useRouteMatch();
     const tasks = useSelector<AppState, Task[]>(state => state.task.tasks);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<Dispatch<AddTaskAction>>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const initFormState: Task = {
-        id: 1,
-        title: "title1",
-        description: "description1",
-        expirationDate: new Date(),
-        color: "#17a2b8",
-        isCompleted: false
-    }
-    const [currentTask, setCurrentTask] = useState<Task>(initFormState);
-    const [isEditing, setIsEditing] = useState<boolean>(false);
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [notification, setNotification] = useNotification();
+    const [currentTask, setCurrentTask] = useState<Task>();
+
+    const [showFormView, setShowFormView] = useState<boolean>(false);
+    const handleCloseFormView = () => setShowFormView(false);
+    const handleShowFormView = () => setShowFormView(true);
+
+    const [showFormAdd, setShowFormAdd] = useState<boolean>(false);
+    const handleCloseFormAdd = () => setShowFormAdd(false);
+    const handleShowFormAdd = () => setShowFormAdd(true);
+
+    const [showFormEdit, setShowFormEdit] = useState<boolean>(false);
+    const handleCloseFormEdit = () => setShowFormEdit(false);
+    const handleShowFormEdit = () => setShowFormEdit(true);
 
     const editTask = (task: Task): void => {
         setCurrentTask(task);
@@ -43,8 +48,8 @@ const App: FC = () => {
         setCurrentTask(task);
     }
 
-    const isEditingTask = (isEdit: boolean): void => {
-        setIsEditing(isEdit);
+    const pushNotification = (status: string): void => {
+        setNotification(status);
     }
 
     const calculateDaysLeft = (date: Date): number => {
@@ -58,8 +63,12 @@ const App: FC = () => {
         calculateDaysLeft(task.expirationDate) < 0 ?
             task.color = "#dc3545" :
             calculateDaysLeft(task.expirationDate) < 4 ?
-                task.color = "#ff00ff" :
-                task.color = "#17a2b8"
+                task.color = "#ffea00" :
+                task.color = "#00c853"
+    }
+
+    const handleAdd = (): void => {
+        handleShowFormAdd();
     }
 
     useEffect(() => {
@@ -79,28 +88,46 @@ const App: FC = () => {
                     )
                     setIsLoading(true);
                 } else {
-                    console.error(`Error ${res.status}: ${res.statusText}` );
+                    pushNotification(`Error ${res.status}: ${res.statusText}`);
                 }
              })
             .catch(error => {
-                    console.error(error);
-                }
-            );
+                pushNotification(error);
+            });
     }, []);
 
     return (
         <ThemeProvider theme={theme}>
             <GlobalStyles />
+            <span className="notification">
+                <Notifications data={notification} />
+            </span>
             <Content>
-                <Title>Tasks manager</Title>
-                <div className="mainForm">
-                    {isEditing ?
-                        <TaskEdit currentTask={currentTask} isEditingTask={isEditingTask} checkTask={checkTask}/> :
-                        <TaskForm tasks={tasks} checkTask={checkTask}/>
+                <Title className="title-task">Tasks manager</Title>
+                <div className="main-tasks">
+                    {currentTask &&
+                        <TaskView
+                            currentTask={currentTask}
+                            show={showFormView}
+                            handleClose={handleCloseFormView}
+                        />
                     }
-                </div>
-                <div className="mainTasks">
-                    <TaskView currentTask={currentTask} show={show} handleClose={handleClose}/>
+                    {currentTask &&
+                        <TaskEdit
+                            currentTask={currentTask}
+                            checkTask={checkTask}
+                            pushNotification={pushNotification}
+                            show={showFormEdit}
+                            handleClose={handleCloseFormEdit}
+                        />
+                    }
+                    <TaskForm
+                        tasks={tasks}
+                        checkTask={checkTask}
+                        pushNotification={pushNotification}
+                        show={showFormAdd}
+                        handleClose={handleCloseFormAdd}
+                    />
                     <TaskTabs
                         className="tabs"
                         items={[
@@ -114,12 +141,18 @@ const App: FC = () => {
                             tasks={tasks}
                             editTask={editTask}
                             viewTask={viewTask}
-                            isEditingTask={isEditingTask}
-                            handleShow={handleShow}
+                            handleShowFormView={handleShowFormView}
+                            handleShowFormEdit={handleShowFormEdit}
+                            pushNotification={pushNotification}
                             path={match.path}
                         />
                         }
                     </DndProvider>
+                    <IconContext.Provider value={{ className: "react-icons" }}>
+                        <div className="react-icons__add-button" onClick={() => handleAdd()}>
+                            <FaPlusCircle />
+                        </div>
+                    </IconContext.Provider>
                 </div>
             </Content>
         </ThemeProvider>

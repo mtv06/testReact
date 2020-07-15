@@ -1,6 +1,9 @@
 export default {
   colors: {
-    background: 'linear-gradient(to top, palevioletred, #000)',
-    blue: '#17a2b8'
-  }
+    background: 'radial-gradient(ellipse at top, #fff, transparent),' +
+                'radial-gradient(ellipse at bottom, #1276DC, transparent)',
+    blue: '#1276DC',
+    red: 'red'
+  },
+  borderRadius: '15'
 }

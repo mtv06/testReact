@@ -1,17 +1,19 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
-import { Task } from "../../store/task/types";
+import { TaskActionTypes, Task } from "../../store/task/types";
 import { useDispatch } from "react-redux";
 import { activeTask, completedTask, deleteTask } from "../../store/task/actions";
 import TaskItem from "../TaskItem";
 import update from 'immutability-helper'
 import { isCompletedTask, removeTask } from "../../api/controllers/task";
+import { Dispatch } from "redux";
 
 interface TaskProps {
     tasks: Task[];
     editTask: (task: Task) => void;
     viewTask: (task: Task) => void;
-    isEditingTask: (isEdit: boolean) => void;
-    handleShow: () => void;
+    handleShowFormView: () => void;
+    handleShowFormEdit: () => void;
+    pushNotification: (status: string) => void;
     path: string;
 }
 
@@ -20,21 +22,27 @@ const TaskList: FC<TaskProps> = (
         tasks,
         editTask,
         viewTask,
-        isEditingTask,
-        handleShow,
+        handleShowFormView,
+        handleShowFormEdit,
+        pushNotification,
         path
     }) => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<Dispatch<TaskActionTypes>>();
     const [tasksDnD, setTasksDnD] = useState<Task[]>(tasks);
 
     useEffect(() => {
         setTasksDnD(tasks);
     }, [tasks]);
 
+    const handleView = (task: Task): void => {
+        viewTask(task);
+        handleShowFormView();
+    }
+
     const handleEdit = (task: Task): void => {
         if (!task.isCompleted) {
             editTask(task);
-            isEditingTask(true);
+            handleShowFormEdit();
         } else
             alert('It is impossible to edit the completed task');
     }
@@ -46,13 +54,12 @@ const TaskList: FC<TaskProps> = (
                     if (res.status === 204) {
                         dispatch(deleteTask(id));
                     } else {
-                        console.error(`Failed to remove task, status - ${res.status}: ${res.statusText}` )
+                        pushNotification(`Failed to removed task, status - ${res.status}: ${res.statusText}`);
                     }
                 })
                 .catch(error => {
-                        console.error(error);
-                    }
-                );
+                    pushNotification(error);
+                });
         }
     }
 
@@ -63,13 +70,12 @@ const TaskList: FC<TaskProps> = (
                     if (res.status === 204) {
                         dispatch(activeTask(id));
                     } else {
-                        console.error(`Error ${res.status}: ${res.statusText}` )
+                        pushNotification(`Failed to actived task, status - ${res.status}: ${res.statusText}`);
                     }
                 })
                 .catch(error => {
-                        console.error(error);
-                    }
-                );
+                    pushNotification(error);
+                });
         }
     }
 
@@ -80,19 +86,13 @@ const TaskList: FC<TaskProps> = (
                     if (res.status === 204) {
                         dispatch(completedTask(id));
                     } else {
-                        console.error(`Error ${res.status}: ${res.statusText}` )
+                        pushNotification(`Failed to mark task as completed, status - ${res.status}: ${res.statusText}`);
                     }
                 })
                 .catch(error => {
-                        console.error(error);
-                    }
-                );
+                    pushNotification(error);
+                });
         }
-    }
-
-    const handleView = (task: Task): void => {
-        viewTask(task);
-        handleShow();
     }
 
     const moveTask =  useCallback(

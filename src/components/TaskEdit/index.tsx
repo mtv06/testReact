@@ -1,27 +1,29 @@
-import React, { FC, SyntheticEvent, useState } from "react";
+import React, { FC, useState } from "react";
 import DatePicker from "react-datepicker";
 import { useDispatch } from "react-redux";
-import { Task } from "../../store/task/types";
+import { EditTaskAction, Task } from "../../store/task/types";
 import { editTask } from "../../store/task/actions";
-import { Button, TitleForm } from "../../styled";
-import styled from "styled-components";
 import { updateTask } from "../../api/controllers/task";
+import { Dispatch } from "redux";
+import { Form, Modal, Button } from "react-bootstrap";
 
 interface TaskProps {
     currentTask: Task;
-    isEditingTask: (isEdit: boolean) => void;
     checkTask: (task: Task) => void;
-    className?: string;
+    pushNotification: (status: string) => void;
+    show: boolean;
+    handleClose: () => void;
 }
 
-const TaskEdit_: FC<TaskProps> = (
+const TaskEdit: FC<TaskProps> = (
     {
         currentTask,
-        isEditingTask,
         checkTask,
-        className
+        pushNotification,
+        show,
+        handleClose
     }) => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<Dispatch<EditTaskAction>>()
     const [task, setTask] = useState<Task>({
         id: currentTask.id,
         title: currentTask.title,
@@ -38,19 +40,19 @@ const TaskEdit_: FC<TaskProps> = (
                     checkTask(task);
                     dispatch(editTask(task));
                 } else {
-                    console.error(`Failed to update task, status -  ${res.status}: ${res.statusText}`);
+                    pushNotification(`Failed to update task, status - ${res.status}: ${res.statusText}`);
                 }
             })
             .catch(error => {
-                console.error(error);
+                pushNotification(error);
             })
             .finally(() => {
-                isEditingTask(false);
+                handleClose();
             })
     }
 
     const onInputChange = (fieldName: string) => (
-        e: SyntheticEvent<HTMLInputElement>
+        e: React.ChangeEvent<HTMLInputElement>
     ): void => {
         setTask({
             ...task,
@@ -66,61 +68,62 @@ const TaskEdit_: FC<TaskProps> = (
     }
 
     return (
-        <form
-            className={className}
-            onSubmit={(e) => {
-                e.preventDefault();
-                handleSubmit();
-                return false;
-            }}
-        >
-            <TitleForm>Update Task</TitleForm>
-            <div className="form-group">
-                <input
-                    type="text"
-                    defaultValue={task.title}
-                    onChange={onInputChange('title')}
-                />
-            </div>
-            <div className="form-group">
-                <input
-                    type="text"
-                    defaultValue={task.description}
-                    onChange={onInputChange('description')}
-                />
-            </div>
-            <DatePicker
-                selected={new Date(task.expirationDate)}
-                dateFormat="dd/MM/yyyy"
-                onChange={(date) => {
-                    if (date != null)
-                        onDateChange(date);
-                }}
-            />
-            <Button>Submit</Button>
-        </form>
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Update Task</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form
+                    onSubmit={(event:{}) => {
+                        const e = event as React.ChangeEvent<HTMLInputElement>;
+                        e.preventDefault();
+                        handleSubmit();
+                        handleClose();
+                        return false;
+                    }}
+                >
+                    <Form.Group>
+                        <Form.Label>Title</Form.Label>
+                        <Form.Control
+                            type="text"
+                            defaultValue={currentTask.title}
+                            onChange={onInputChange('title')}
+                        />
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control
+                            type="text"
+                            defaultValue={currentTask.description}
+                            onChange={onInputChange('description')}
+                        />
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Date</Form.Label>
+                        <DatePicker
+                            selected={new Date(currentTask.expirationDate)}
+                            dateFormat="dd/MM/yyyy"
+                            onChange={(date) => {
+                                if (date != null)
+                                    onDateChange(date);
+                            }}
+                        />
+                    </Form.Group>
+                    <div className="modal-button">
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        &nbsp;&nbsp;
+                        <Button variant="primary" type="submit">
+                            Save changes
+                        </Button>
+                    </div>
+                </Form>
+            </Modal.Body>
+        </Modal>
     );
 }
-
-const TaskEdit = styled(TaskEdit_)`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
-  
-  input {
-    width: 100%;
-    height: 40px;
-    color: grey;
-  }
-  
-  .react-datepicker-wrapper {
-    width: 100%;
-  }
-  
-  .react-datepicker__input-container input {
-    color: grey;
-    width: 100%;
-  }
-`;
 
 export default TaskEdit;

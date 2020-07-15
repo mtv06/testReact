@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import 'react-datepicker/dist/react-datepicker.css';
-import {Task} from "../../store/task/types";
-import {Button, Modal} from "react-bootstrap";
+import { Task } from "../../store/task/types";
+import { Button, Modal } from "react-bootstrap";
 import Moment from "react-moment";
 
 interface TaskProps {
@@ -21,8 +21,9 @@ const TaskView: FC<TaskProps> = (
             <Modal.Header closeButton>
                 <Modal.Title>{currentTask.title}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>{currentTask.description}</Modal.Body>
             <Modal.Body>
+                <div>{currentTask.description}</div>
+                <br />
                 <Moment format="DD/MM/YYYY">{currentTask.expirationDate}</Moment>
             </Modal.Body>
             <Modal.Footer>

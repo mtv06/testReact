@@ -3,16 +3,18 @@ import styled from "styled-components";
 export const Content = styled.div`
     display: grid;
     grid-template-areas:
-    "header header"
-    "form tasks";
-    grid-template-rows: 80px 1fr;
-    grid-template-columns: 30% 1fr;
+    "header"
+    "tasks";
+    grid-template-rows: auto-fit 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    position: relative;
+    z-index: 1;
     
-    .mainForm {
-        grid-area: form;
+    .title-task {
+        grid-area: header;
     }
     
-    .mainTasks {
+    .main-tasks {
         grid-area: tasks;
     }
 `;
