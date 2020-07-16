@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { useDispatch } from "react-redux";
 import { EditTaskAction, Task } from "../../store/task/types";
@@ -33,6 +33,10 @@ const TaskEdit: FC<TaskProps> = (
         isCompleted: currentTask.isCompleted
     });
 
+    useEffect(() => {
+        setTask(currentTask)
+    }, [currentTask]);
+
     const handleSubmit = (): void => {
         updateTask(task)
             .then(res => {
@@ -45,9 +49,6 @@ const TaskEdit: FC<TaskProps> = (
             })
             .catch(error => {
                 pushNotification(error);
-            })
-            .finally(() => {
-                handleClose();
             })
     }
 

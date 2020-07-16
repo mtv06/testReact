@@ -23,7 +23,6 @@ export default createGlobalStyle`
 
         #root {
           grid-area: content;
-          height: 100%;
         }
       }
     }

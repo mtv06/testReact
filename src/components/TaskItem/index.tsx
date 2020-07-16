@@ -90,7 +90,7 @@ const TaskItem_: FC<TaskItemProps> = (
         <div className={className} ref={ref} key={task.id}>
             <div className="row">
                 <div className="col-lg-8 col-md-6" onClick={() => handleView(task)}>
-                    <div className="circle"></div>
+                    <div className="circle"/>
                     <div className="block-task">
                         <TitleTask>{task.title}</TitleTask>
                         <Moment format="DD/MM/YYYY">{task.expirationDate}</Moment>
@@ -115,10 +115,10 @@ const TaskItem = styled(TaskItem_)`
   background: white;  
   color: #1276DC;
   text-decoration: ${props => props.task.isCompleted ? "line-through" : "none"};
-  margin: 15px 10px;
+  margin: 1.5em 1em;
   border: 1px dashed #1276DC;
-  padding: 12px 6px;
-  border-radius: 5px;
+  padding: 1.2em 0.6em;
+  border-radius: 0.5em;
   cursor: move;
   
   .circle {
@@ -129,6 +129,7 @@ const TaskItem = styled(TaskItem_)`
     width: 1em;
     margin-top: -0.4em
   } 
+  
   .block-task {
     margin-left: 1.5em;
   }

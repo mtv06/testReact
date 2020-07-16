@@ -46,17 +46,16 @@ const TaskTabs = styled(TaskTabs_)`
   align-items: center;
   position: relative;
   text-align: center;
-  font-family: 'Geometria-Medium', sans-serif;
   font-weight: 500;
   line-height: 1.4;
   border-radius: 2px;
   overflow: hidden;
-  box-shadow: 0 6px 16px 0 rgba(40, 43, 47, 0.1);
+  box-shadow: 0 0.6em 1.6em 0 rgba(40, 43, 47, 0.1);
   user-select: none;
-  margin: 8px 16px;
+  margin: 0.8em 1.6em;
   a {
     color: #1276DC;
-    padding-top: 5px;
+    padding-top: 0.5em;
   }
 `;
 

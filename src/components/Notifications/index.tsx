@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import styled from "styled-components/macro";
 
-type NotificationData = { timeout?: number; status?: string; check?: boolean};
+type NotificationData = { timeout?: number; msg?: string; check?: boolean};
 
-type SendNotificationData = (status: string) => void;
+type SendNotificationData = (msg: string) => void;
 
 export const useNotification = (): [NotificationData, SendNotificationData] => {
   const [notificationData, setNotificationData] = useState<NotificationData>({});
@@ -17,7 +17,7 @@ export const useNotification = (): [NotificationData, SendNotificationData] => {
     }
   }, [notificationData]);
 
-  const setNotification = (status: string) => {
+  const setNotification = (msg: string) => {
     if (notificationData.timeout) clearTimeout(notificationData.timeout);
 
     const timeout = setTimeout(() => {
@@ -26,20 +26,20 @@ export const useNotification = (): [NotificationData, SendNotificationData] => {
 
     const check = true;
 
-    setNotificationData({ timeout, status, check });
+    setNotificationData({ timeout, msg, check });
   };
   return [notificationData, setNotification];
 };
 
-const Message_: FC<{ data: NotificationData; className?: string }> = ({ data, className }) => {
+const Notifications_: FC<{ data: NotificationData; className?: string }> = ({ data, className }) => {
   return (
       data.check ?
-        <div className={className}>{data.status}</div> :
+        <div className={className}>{data.msg}</div> :
         <p>&nbsp;</p>
   )
 };
 
-const Index = styled(Message_)`
+const Notifications = styled(Notifications_)`
   border-radius: ${({ theme }) => theme.borderRadius}px;
   background: ${({ theme }) => theme.colors.red};
   color: white;
@@ -49,4 +49,4 @@ const Index = styled(Message_)`
   opacity: 0.6;
 `;
 
-export default Index;
+export default Notifications;
